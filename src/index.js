@@ -1,7 +1,10 @@
 const fetchDogs = () => {
   fetch("http://localhost:3000/pups")
   .then(res => res.json())
-  .then(puppies => spanDoggo(puppies))
+  .then(puppies => {
+    spanDoggo(puppies)
+    filterDogsBar(puppies)
+  })
 }
 
 let foundPuppy;
@@ -62,9 +65,21 @@ const trueOrFalse = goodBoi => {
 const toggleBtn = puppy => {
   console.log(puppy)
   const button = document.querySelector(".btn")
-  button.innerText = trueOrFalse(puppy.isGoodDog)
-  console.log(button.innerText)
-  console.log(trueOrFalse(puppy.isGoodDog))
+  button.innerText = !trueOrFalse(puppy.isGoodDog)
+}
+
+const filterDogsBar = puppies => {
+  const filterDogs = document.querySelector("#good-dog-filter");
+  const dogBar = document.querySelector("#dog-bar");
+
+  filterDogs.addEventListener("click", () => {
+    dogBar.innerHTML = "";
+    puppies.forEach(puppy => {
+      if(puppy.isGoodDog === true) {
+        // puppy.style.display = "none";
+        dogBar.innerHTML += `<span id="${puppy.id} " class="dogBtn">${puppy.name}</span>`      }
+    })
+  })
 }
 
 
